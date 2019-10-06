@@ -104,3 +104,33 @@ function throttle(fn, wait, immediate) {
         }
     }
 }
+
+// 依据：如果Object方法的参数是一个对象，它总是返回该对象，即不用转换。
+// 判断变量是否为对象的函数
+function isObject(value) {
+    return value === Object(value)
+}
+// 依据：getOwnPropertyNames可以返回对象的不可枚举属性
+// 计算对象属性的个数
+function computPropertyNum(value) {
+    return Object.getOwnPropertyNames(value).length
+}
+
+// 类型判断函数，比typeof更准确
+// o是接受的输入值
+
+let type = function(o) {
+    let s = Object.prototype.toString.call(o);
+    return s.match(/\[object (.*?)\]/)[1].toLowerCase()
+}
+
+//  增加专门判断某种数据类型的方法
+let list = ['Null', 'Undefined', 'Object', 'Array', 'String', 'Number', 'Boolean', 'Function', 'RegExp']
+if(list) {
+    list.forEach(function(t) {
+        // type['is' + t] 将每一个方法赋值给type对象中的每一个属性名，同时这种方式也可以读取属性名，也可以采用type.isNull的方式 
+        type['is' + t] = function(o){
+            return type(o) === t.toLowerCase()
+        }
+    })
+} 
